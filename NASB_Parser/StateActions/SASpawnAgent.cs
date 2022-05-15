@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -50,6 +51,28 @@ namespace NASB_Parser.StateActions
             writer.Write(CustomSpawnMovement);
             writer.Write(Movements);
             writer.Write(ResultOrderAdded);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SASpawnAgent";
+
+            ret.data.Add("Bank", Bank);
+            ret.data.Add("Id", Id);
+            ret.data.Add("Bone", Bone);
+            ret.data.Add("LocalOffset", LocalOffset.ToString());
+            ret.data.Add("WorldOffset", WorldOffset.ToString());
+            ret.data.Add("CustomSpawnMovement", CustomSpawnMovement.ToString());
+
+            foreach (SpawnMovement s in Movements)
+            {
+                ret.Items.Add(s.toTreeViewNode("Movements"));
+            }
+
+            ret.Items.Add(MessageObject.toTreeViewNode("MessageObject"));
+            ret.Items.Add(ResultOrderAdded.toTreeViewNode("ResultOrderAdded"));
+
+            return ret;
         }
     }
 }

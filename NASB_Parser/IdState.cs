@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser
 {
-    public class IdState : ISerializable
+    public class IdState : ISerializable, ITreeViewNode
     {
         public string Id { get; set; }
         public List<string> Tags { get; private set; } = new List<string>();
@@ -29,6 +29,29 @@ namespace NASB_Parser
             writer.Write(Id);
             writer.Write(Tags);
             writer.Write(State);
+        }
+
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+
+        public NASBTreeViewNode toTreeViewNode() {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "IdState: " + Id;
+            ret.data.Add("Id", Id);
+            ret.data.Add("Tags", String.Join("\n", Tags));
+            ret.Items.Add(State.toTreeViewNode("State"));
+
+            ret.baseobject = this;
+
+            return ret;
+        }
+        public virtual Dictionary<string, Type> requisites()
+        {
+            throw new NotImplementedException();
         }
     }
 }

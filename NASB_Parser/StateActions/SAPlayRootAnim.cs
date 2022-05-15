@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -33,6 +34,20 @@ namespace NASB_Parser.StateActions
             writer.Write(SetRateOnly);
             writer.Write(Frame);
             writer.Write(SetFrame);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAPlayRootAnim";
+
+            ret.data.Add("Anim", Anim);
+            ret.data.Add("Rate", Rate.ToString());
+            ret.data.Add("SetRateOnly", SetRateOnly.ToString());
+            ret.data.Add("Frame", Frame.ToString());
+            ret.data.Add("SetFrame", SetFrame.ToString());
+
+            return ret;
         }
     }
 }

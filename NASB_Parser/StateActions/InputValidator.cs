@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
-    public class InputValidator : ISerializable
+    public class InputValidator : ISerializable, ITreeViewNode
     {
         public ValidatorInputType InputType { get; set; }
         public bool RawX { get; set; }
@@ -66,6 +67,35 @@ namespace NASB_Parser.StateActions
             {
                 writer.Write(Validators);
             }
+        }
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+        public NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "InputValidator";
+
+            ret.data.Add("RawX", RawX.ToString());
+            ret.data.Add("ValidatorInputType", Enum.GetName(typeof(ValidatorInputType), InputType));
+            ret.data.Add("CtrlSeg", Enum.GetName(typeof(CtrlSeg), Segment));
+            ret.data.Add("ValidatorFloatCompare", Enum.GetName(typeof(ValidatorFloatCompare), FloatCompare));
+            ret.data.Add("ValidatorButtonCompare", Enum.GetName(typeof(ValidatorButtonCompare), ButtonCompare));
+            ret.data.Add("CtrlSegCompare", SegCompare.ToString());//Enum.GetName(typeof(CtrlSegCompare), SegCompare));
+            ret.data.Add("ValidatorMultiCompare", Enum.GetName(typeof(ValidatorMultiCompare), MultiCompare));
+
+            ret.Items.Add(FloatContainer.toTreeViewNode("FloatContainer"));
+            foreach (InputValidator v in Validators)
+                ret.Items.Add(v.toTreeViewNode("Validators"));
+
+            return ret;
+        }
+        public virtual Dictionary<string, Type> requisites()
+        {
+            throw new NotImplementedException();
         }
 
         public enum ValidatorInputType

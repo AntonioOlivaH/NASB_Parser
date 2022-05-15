@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -31,6 +32,19 @@ namespace NASB_Parser.StateActions
             writer.Write(Activate);
             writer.Write(Permanent);
             writer.Write(RunForTime);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAColorTint";
+
+            ret.data.Add("Id", Id);
+            ret.data.Add("Activate", Activate.ToString());
+            ret.data.Add("Permanent", Permanent.ToString());
+
+            ret.Items.Add(RunForTime.toTreeViewNode("RunForTime"));
+
+            return ret;
         }
     }
 }

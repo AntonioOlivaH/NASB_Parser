@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -31,6 +32,19 @@ namespace NASB_Parser.StateActions
             writer.Write(Y);
             writer.Write(Z);
             writer.Write(T);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SACameraPunch";
+
+            ret.Items.Add(X.toTreeViewNode("X"));
+            ret.Items.Add(Y.toTreeViewNode("Y"));
+            ret.Items.Add(Z.toTreeViewNode("Z"));
+            ret.Items.Add(T.toTreeViewNode("T"));
+
+            return ret;
         }
     }
 }

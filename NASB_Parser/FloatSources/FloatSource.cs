@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.FloatSources
 {
-    public abstract class FloatSource : ISerializable
+    public abstract class FloatSource : ISerializable, ITreeViewNode
     {
         public TypeId TID { get; private set; }
         public int Version { get; private set; }
@@ -61,6 +62,18 @@ namespace NASB_Parser.FloatSources
                 TypeId.FloatId => new FSValue(reader),
                 _ => throw new ReadException(reader, $"Could not parse valid {nameof(FloatSource)} type from: {reader.PeekInt()}!"),
             };
+        }
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+
+        public abstract NASBTreeViewNode toTreeViewNode();
+        public virtual Dictionary<string, Type> requisites()
+        {
+            throw new NotImplementedException();
         }
 
         public enum TypeId

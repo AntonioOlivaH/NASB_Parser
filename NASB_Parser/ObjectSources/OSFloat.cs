@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.ObjectSources
 {
@@ -22,6 +23,15 @@ namespace NASB_Parser.ObjectSources
         {
             base.Write(writer);
             writer.Write(Source);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "OSFloat";
+
+            ret.Items.Add(Source.toTreeViewNode("Source"));
+
+            return ret;
         }
     }
 }

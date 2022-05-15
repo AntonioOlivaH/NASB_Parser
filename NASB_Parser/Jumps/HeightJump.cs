@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.Jumps
 {
@@ -22,6 +23,15 @@ namespace NASB_Parser.Jumps
         {
             base.Write(writer);
             writer.Write(Height);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "HeightJump";
+
+            ret.Items.Add(Height.toTreeViewNode("Height"));
+
+            return ret;
         }
     }
 }

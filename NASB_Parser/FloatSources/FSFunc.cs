@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.FloatSources
 {
@@ -30,6 +31,19 @@ namespace NASB_Parser.FloatSources
             writer.Write(ContainerA);
             writer.Write(ContainerB);
             writer.Write(ContainerC);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "FSFunc";
+            ret.data.Add("Way", Enum.GetName(typeof(FuncWay), Way));
+
+            ret.Items.Add(ContainerA.toTreeViewNode("ContainerA"));
+            ret.Items.Add(ContainerB.toTreeViewNode("ContainerB"));
+            ret.Items.Add(ContainerC.toTreeViewNode("ContainerC"));
+
+            return ret;
         }
 
         public enum FuncWay

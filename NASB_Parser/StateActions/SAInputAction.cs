@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -27,6 +28,18 @@ namespace NASB_Parser.StateActions
             writer.Write(Frames);
             writer.Write(Id);
             writer.Write(Trigger);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAInputAction";
+
+            ret.data.Add("Frames", Frames.ToString());
+            ret.data.Add("Id", Id);
+            ret.Items.Add(Trigger.toTreeViewNode("Trigger"));
+
+            return ret;
         }
     }
 }

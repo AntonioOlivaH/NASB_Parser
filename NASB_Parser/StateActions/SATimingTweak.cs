@@ -1,4 +1,5 @@
 ﻿using NASB_Parser.FloatSources;
+using NASB_Parser.WFPControl;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -49,6 +50,25 @@ namespace NASB_Parser.StateActions
             writer.Write(ActionA);
             writer.Write(ActionB);
             writer.Write(ActionEnd);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SATimingTweak";
+
+            ret.data.Add("AnimId", AnimId);
+            ret.data.Add("RootAnimId", RootAnimId);
+            ret.Items.Add(AnimCfg.toTreeViewNode("AnimCfg"));
+            ret.Items.Add(AnimFrames.toTreeViewNode("AnimFrames"));
+            ret.Items.Add(StateFrames.toTreeViewNode("StateFrames"));
+            ret.Items.Add(FramesToA.toTreeViewNode("FramesToA"));
+            ret.Items.Add(FramesToB.toTreeViewNode("FramesToB"));
+            ret.Items.Add(ActionA.toTreeViewNode("ActionA"));
+            ret.Items.Add(ActionB.toTreeViewNode("ActionB"));
+            ret.Items.Add(ActionEnd.toTreeViewNode("ActionEnd"));
+
+            return ret;
         }
     }
 }

@@ -10,9 +10,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F67E9C81-912A-47CA-BF8F-7963F8721B5A}"
 	ProjectSection(SolutionItems) = preProject
 		TestSerialization\char_apple.txt = TestSerialization\char_apple.txt
+		Class1.cs = Class1.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonDumper", "JsonDumper\JsonDumper.csproj", "{8EAC947E-D431-46B2-9696-32D1F2B8B7B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonDumper", "JsonDumper\JsonDumper.csproj", "{8EAC947E-D431-46B2-9696-32D1F2B8B7B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

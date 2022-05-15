@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -22,6 +23,19 @@ namespace NASB_Parser.StateActions
             FloatSource = FloatSource.Read(reader);
             Id = reader.ReadString();
             Phase = (Phases)reader.ReadInt();
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAActiveAction";
+
+            ret.data.Add("Id", Id);
+            ret.data.Add("Phase", Enum.GetName(typeof(Phases), Phase));
+            ret.Items.Add(Action.toTreeViewNode("Action"));
+            ret.Items.Add(FloatSource.toTreeViewNode("FloatSource"));
+
+            return ret;
         }
 
         public override void Write(BulkSerializeWriter writer)

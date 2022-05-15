@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -23,8 +24,18 @@ namespace NASB_Parser.StateActions
             base.Write(writer);
             writer.Write(Map);
         }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAMapAnimation";
 
-        public class MapPoint : ISerializable
+            foreach (MapPoint mp in Map)
+                ret.Items.Add(mp.toTreeViewNode("Map"));
+
+            return ret;
+        }
+
+        public class MapPoint : ISerializable, ITreeViewNode
         {
             public bool RootAnim { get; set; }
             public string AnimId { get; set; }
@@ -57,6 +68,32 @@ namespace NASB_Parser.StateActions
                 writer.Write(Frames);
                 writer.Write(StartAnimFrame);
                 writer.Write(EndAnimFrame);
+            }
+            public NASBTreeViewNode toTreeViewNode(string label)
+            {
+                NASBTreeViewNode ret = this.toTreeViewNode();
+                ret.Header = label + "_" + ret.Header;
+                return ret;
+            }
+
+            public NASBTreeViewNode toTreeViewNode()
+            {
+                NASBTreeViewNode ret = new NASBTreeViewNode();
+                ret.Header = "MapPoint";
+
+                ret.data.Add("RootAnim", RootAnim.ToString());
+                ret.data.Add("AnimId", AnimId);
+
+                ret.Items.Add(AtFrames.toTreeViewNode("AtFrames"));
+                ret.Items.Add(Frames.toTreeViewNode("Frames"));
+                ret.Items.Add(StartAnimFrame.toTreeViewNode("StartAnimFrame"));
+                ret.Items.Add(EndAnimFrame.toTreeViewNode("EndAnimFrame"));
+
+                return ret;
+            }
+            public virtual Dictionary<string, Type> requisites()
+            {
+                throw new NotImplementedException();
             }
         }
     }

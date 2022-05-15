@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -27,6 +28,17 @@ namespace NASB_Parser.StateActions
             writer.Write(Hitbox);
             writer.Write(Box);
             writer.Write(Action);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAOnHit";
+
+            ret.data.Add("Hitbox", Hitbox.ToString());
+            ret.data.Add("Box", Box.ToString());
+            ret.Items.Add(Action.toTreeViewNode("Action"));
+
+            return ret;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.CheckThings
 {
@@ -28,6 +29,18 @@ namespace NASB_Parser.CheckThings
             writer.Write(Way);
             writer.Write(A);
             writer.Write(B);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "CTCompareFloat";
+
+            ret.data.Add("Way", Enum.GetName(typeof(CheckWay), Way));
+            ret.Items.Add(A.toTreeViewNode("A"));
+            ret.Items.Add(B.toTreeViewNode("B"));
+
+            return ret;
         }
     }
 }

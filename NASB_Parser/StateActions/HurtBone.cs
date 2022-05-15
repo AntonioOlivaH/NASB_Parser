@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
-    public class HurtBone : ISerializable
+    public class HurtBone : ISerializable, ITreeViewNode
     {
         public HurtType Type { get; set; }
         public int Armor { get; set; }
         public int KnockbackArmor { get; set; }
-        public bool ForceZ0 { get; set; }
+        public bool ignoregrab { get; set; }
         public string BoneA { get; set; }
         public string BoneB { get; set; }
         public float Radius { get; set; }
@@ -30,8 +31,10 @@ namespace NASB_Parser.StateActions
             if (version > 0)
             {
                 KnockbackArmor = reader.ReadInt();
+            } else {
+                KnockbackArmor = 0;
             }
-            ForceZ0 = reader.ReadBool();
+            ignoregrab = reader.ReadBool();
             BoneA = reader.ReadString();
             BoneB = reader.ReadString();
             Radius = reader.ReadFloat();
@@ -47,7 +50,7 @@ namespace NASB_Parser.StateActions
             writer.Write(Type);
             writer.Write(Armor);
             writer.Write(KnockbackArmor);
-            writer.Write(ForceZ0);
+            writer.Write(ignoregrab);
             writer.Write(BoneA);
             writer.Write(BoneB);
             writer.Write(Radius);
@@ -55,6 +58,35 @@ namespace NASB_Parser.StateActions
             writer.Write(WorldOffsetA);
             writer.Write(LocalOffsetB);
             writer.Write(WorldOffsetB);
+        }
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+        public NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "Hurtbone";
+
+            ret.data.Add("Type", Enum.GetName(typeof(HurtType),Type));
+            ret.data.Add("Armor", Armor.ToString());
+            ret.data.Add("KnockbackArmor", KnockbackArmor.ToString());
+            ret.data.Add("ignoregrab", ignoregrab.ToString());
+            ret.data.Add("BoneA", BoneA.ToString());
+            ret.data.Add("BoneB", BoneB.ToString());
+            ret.data.Add("Radius", Radius.ToString());
+            ret.data.Add("LocalOffsetA", LocalOffsetA.ToString());
+            ret.data.Add("WorldOffsetA", WorldOffsetA.ToString());
+            ret.data.Add("LocalOffsetB", LocalOffsetB.ToString());
+            ret.data.Add("WorldOffsetB", WorldOffsetB.ToString());
+
+            return ret;
+        }
+        public virtual Dictionary<string, Type> requisites()
+        {
+            throw new NotImplementedException();
         }
     }
 }

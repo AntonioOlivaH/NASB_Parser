@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -43,6 +44,10 @@ namespace NASB_Parser.StateActions
                     Bone2 = reader.ReadString();
                     LocalOffset2 = reader.ReadVector3();
                     WorldOffset2 = reader.ReadVector3();
+                } else {
+                    Bone2 = "";
+                    LocalOffset2 = Vector3.newVector();
+                    WorldOffset2 = Vector3.newVector();
                 }
             }
         }
@@ -67,6 +72,28 @@ namespace NASB_Parser.StateActions
                 writer.Write(LocalOffset2);
                 writer.Write(WorldOffset2);
             }
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAConfigHitbox";
+
+            ret.data.Add("Hitbox", Hitbox.ToString());
+            ret.data.Add("ForceZ0", ForceZ0.ToString());
+            ret.data.Add("Radius", Radius.ToString());
+            ret.data.Add("LocalOffset", LocalOffset.ToString());
+            ret.data.Add("WorldOffset", WorldOffset.ToString());
+            ret.data.Add("Prop", Prop);
+            ret.data.Add("Bone", Bone);
+            ret.data.Add("FxId", FxId);
+            ret.data.Add("SfxId", SfxId);
+            ret.data.Add("SecondTrack", SecondTrack.ToString());
+            ret.data.Add("Bone2", Bone2);
+            ret.data.Add("LocalOffset2", LocalOffset2.ToString());
+            ret.data.Add("WorldOffset2", WorldOffset2.ToString());
+
+            return ret;
         }
     }
 }

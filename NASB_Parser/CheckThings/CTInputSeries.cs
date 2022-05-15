@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.CheckThings
 {
@@ -27,6 +28,20 @@ namespace NASB_Parser.CheckThings
             writer.Write(CheckFrames);
             writer.Write(InputSeries);
             writer.Write(StopLooking);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "CTInputSeries";
+
+            ret.data.Add("CheckFrames", CheckFrames.ToString());
+            foreach (LookForInput l in InputSeries)
+                ret.Items.Add(l.toTreeViewNode("InputSeries"));
+            foreach (LookForInput l in StopLooking)
+                ret.Items.Add(l.toTreeViewNode("StopLooking"));
+
+            return ret;
         }
     }
 }

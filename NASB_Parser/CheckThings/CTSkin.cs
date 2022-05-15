@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.CheckThings
 {
@@ -27,6 +28,18 @@ namespace NASB_Parser.CheckThings
             writer.Write(MatchSkin);
             writer.Write(MatchColor);
             writer.Write(MatchAgainstColor);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "CTSkin";
+
+            ret.data.Add("MatchSkin", MatchSkin);
+            ret.data.Add("MatchColor", MatchColor.ToString());
+            ret.data.Add("MatchAgainstColor", MatchAgainstColor.ToString());
+
+            return ret;
         }
     }
 }

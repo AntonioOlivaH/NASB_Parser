@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -28,6 +29,17 @@ namespace NASB_Parser.StateActions
             writer.Write(1);
             writer.Write(Shake);
             writer.Write(Intensity);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SACameraShake";
+
+            ret.data.Add("Shake", Shake.ToString());
+            ret.data.Add("Intensity", Intensity.ToString());
+
+            return ret;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -34,6 +35,20 @@ namespace NASB_Parser.StateActions
             writer.Write(AlterY);
             writer.Write(FalloffX);
             writer.Write(FalloffY);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAAlterMoveVel";
+
+            ret.data.Add("ClearAMV", ClearAMV.ToString());
+            ret.Items.Add(AlterX.toTreeViewNode("AlterX"));
+            ret.Items.Add(AlterY.toTreeViewNode("AlterY"));
+            ret.Items.Add(FalloffX.toTreeViewNode("FalloffX"));
+            ret.Items.Add(FalloffY.toTreeViewNode("FalloffY"));
+
+            return ret;
         }
     }
 }

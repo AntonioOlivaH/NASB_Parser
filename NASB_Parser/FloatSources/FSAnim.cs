@@ -1,4 +1,5 @@
 ﻿using NASB_Parser.FloatSources;
+using NASB_Parser.WFPControl;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,6 +26,15 @@ namespace NASB_Parser.FloatSources
             base.Write(writer);
             writer.Write(Anim);
             writer.Write(Attribute);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode() {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "FSAnim";
+
+            ret.data.Add("Anim", Anim);
+            ret.data.Add("Attribute", Enum.GetName(typeof(AnimAttr),Attribute));
+            return ret;
         }
 
         public enum AnimAttr

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -31,6 +32,18 @@ namespace NASB_Parser.StateActions
             writer.Write(Loop);
             writer.Write(Source);
             writer.Write(Timeline);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAPlaySFXTimeline";
+
+            ret.data.Add("Manip", Enum.GetName(typeof(ManipType), Manip));
+            ret.data.Add("Loop", Loop.ToString());
+            ret.Items.Add(Source.toTreeViewNode("Source"));
+            ret.data.Add("Timeline", Timeline);
+
+            return ret;
         }
 
         public enum ManipType

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -28,6 +29,17 @@ namespace NASB_Parser.StateActions
             writer.Write(ManipIndex);
             writer.Write(Manip);
             writer.Write(Source);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAManipDecorChain";
+
+            ret.data.Add("ManipIndex", ManipIndex.ToString());
+            ret.data.Add("Manip", Enum.GetName(typeof(ManipType), Manip));
+            ret.Items.Add(Source.toTreeViewNode("Source"));
+
+            return ret;
         }
 
         public enum ManipType

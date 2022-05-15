@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -29,7 +30,20 @@ namespace NASB_Parser.StateActions
             writer.Write(Config);
         }
 
-        public class StandardConfig : ISerializable
+        public override NASBTreeViewNode toTreeViewNode() {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAStandardInput";
+
+            ret.data.Add("Frames", Frames.ToString());
+            ret.data.Add("ForceCheck", ForceCheck.ToString());
+            NASBTreeViewNode d = Config.toTreeViewNode();
+            d.Header += "_Config";
+            ret.Items.Add(d);
+
+            return ret;
+        }
+
+        public class StandardConfig : ISerializable, ITreeViewNode
         {
             public byte DontCheck0 { get; set; }
             public byte DontCheck1 { get; set; }
@@ -56,6 +70,29 @@ namespace NASB_Parser.StateActions
                 writer.Write(DontCheck1);
                 writer.Write(DontCheck2);
                 writer.Write(DontCheck3);
+            }
+            public NASBTreeViewNode toTreeViewNode(string label)
+            {
+                NASBTreeViewNode ret = this.toTreeViewNode();
+                ret.Header = label + "_" + ret.Header;
+                return ret;
+            }
+
+            public NASBTreeViewNode toTreeViewNode()
+            {
+                NASBTreeViewNode ret = new NASBTreeViewNode();
+                ret.Header = "StandardConfig";
+
+                ret.data.Add("DontCheck0", DontCheck0.ToString());
+                ret.data.Add("DontCheck1", DontCheck0.ToString());
+                ret.data.Add("DontCheck2", DontCheck0.ToString());
+                ret.data.Add("DontCheck3", DontCheck0.ToString());
+
+                return ret;
+            }
+            public virtual Dictionary<string, Type> requisites()
+            {
+                throw new NotImplementedException();
             }
         }
     }

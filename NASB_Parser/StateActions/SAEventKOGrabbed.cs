@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using static NASB_Parser.StateActions.SAEventKO;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -22,6 +23,16 @@ namespace NASB_Parser.StateActions
         {
             base.Write(writer);
             writer.Write(KO);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAEventKOGrabbed";
+
+            ret.data.Add("KO", Enum.GetName(typeof(KOType), KO));
+
+            return ret;
         }
     }
 }

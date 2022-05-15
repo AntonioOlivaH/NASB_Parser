@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -21,6 +22,15 @@ namespace NASB_Parser.StateActions
         {
             base.Write(writer);
             writer.Write(HurtSetSetup);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SASetupHurtboxes";
+
+            ret.Items.Add(HurtSetSetup.toTreeViewNode("HurtSetSetup"));
+
+            return ret;
         }
     }
 }

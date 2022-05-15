@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
-    public class MovementConfig : ISerializable
+    public class MovementConfig : ISerializable, ITreeViewNode
     {
         public bool GetParented { get; set; }
         public bool LeaveEdges { get; set; }
@@ -61,6 +62,39 @@ namespace NASB_Parser.StateActions
             writer.Write(LeaveEdgeRestrict);
             writer.Write(SimpleFreeMovement);
             writer.Write(SimpleRadius);
+        }
+
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+        public NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "MovementConfig";
+
+            ret.data.Add("GetParented", GetParented.ToString());
+            ret.data.Add("LeaveEdges", LeaveEdges.ToString());
+            ret.data.Add("PassThrough", PassThrough.ToString());
+            ret.data.Add("FallThrough", FallThrough.ToString());
+            ret.data.Add("IgnoreMovingStage", IgnoreMovingStage.ToString());
+            ret.data.Add("Bounce", Bounce.ToString());
+            ret.data.Add("Stop", Stop.ToString());
+            ret.data.Add("LeaveParent", LeaveParent.ToString());
+            ret.data.Add("IgnoreMovingStage", IgnoreMovingStage.ToString());
+            ret.data.Add("IgnoreStageLayer", Enum.GetName(typeof(StageLayer), IgnoreStageLayer));
+            ret.data.Add("InheritParentVel", IgnoreMovingStage.ToString());
+            ret.data.Add("LeaveEdgeRestrict", LeaveEdgeRestrict.ToString());
+            ret.data.Add("SimpleFreeMovement", SimpleFreeMovement.ToString());
+            ret.data.Add("SimpleRadius", SimpleRadius.ToString());
+        
+            return ret;
+        }
+        public virtual Dictionary<string, Type> requisites()
+        {
+            throw new NotImplementedException();
         }
 
         public enum StageLayer
