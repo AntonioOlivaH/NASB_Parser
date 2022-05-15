@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.ObjectSources
 {
-    public class ObjectSource : ISerializable
+    public class ObjectSource : ISerializable, ITreeViewNode
     {
         public TypeId TID { get; private set; }
         public int Version { get; private set; }
@@ -34,6 +35,22 @@ namespace NASB_Parser.ObjectSources
                 TypeId.BaseIdentifier => new ObjectSource(reader),
                 _ => throw new ReadException(reader, $"Could not parse valid {nameof(ObjectSource)} type from: {reader.PeekInt()}!"),
             };
+        }
+
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+
+        public virtual NASBTreeViewNode toTreeViewNode()
+        {
+            throw new NotImplementedException();
+        }
+        public virtual Dictionary<string, Type> requisites()
+        {
+            throw new NotImplementedException();
         }
 
         public enum TypeId

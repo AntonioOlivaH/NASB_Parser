@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.FloatSources
 {
@@ -21,6 +22,15 @@ namespace NASB_Parser.FloatSources
         {
             base.Write(writer);
             writer.Write(Id);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "FSData";
+
+            ret.data.Add("Id", Id);
+            return ret;
         }
     }
 }

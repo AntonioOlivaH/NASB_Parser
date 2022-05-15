@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser
 {
-    public class AgentState : ISerializable
+    public class AgentState : ISerializable, ITreeViewNode
     {
         public string CustomCall { get; set; }
         // Needed for system.text.json
@@ -35,6 +35,26 @@ namespace NASB_Parser
             writer.Write(0);
             writer.Write(CustomCall);
             writer.Write(Timeline);
+        }
+
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+
+        public NASBTreeViewNode toTreeViewNode() {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "AgentState";
+            ret.data.Add("CustomCall", CustomCall);
+            foreach(TimedAction t in Timeline)
+                ret.Items.Add(t.toTreeViewNode("Timeline"));
+            return ret;
+        }
+        public virtual Dictionary<string, Type> requisites()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.FloatSources
 {
@@ -21,6 +22,14 @@ namespace NASB_Parser.FloatSources
         {
             base.Write(writer);
             writer.Write(Attribute);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "FSItem";
+            ret.data.Add("Attribute", Enum.GetName(typeof(Attributes), Attribute));
+
+            return ret;
         }
 
         public enum Attributes

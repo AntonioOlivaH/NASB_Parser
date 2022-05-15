@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.FloatSources
 {
@@ -27,6 +28,17 @@ namespace NASB_Parser.FloatSources
             writer.Write(Ratio);
             writer.Write(A);
             writer.Write(B);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "FSRandom";
+            ret.data.Add("Ratio", Ratio.ToString());
+
+            ret.Items.Add(A.toTreeViewNode("A"));
+            ret.Items.Add(B.toTreeViewNode("B"));
+
+            return ret;
         }
     }
 }

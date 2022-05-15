@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
-    public struct AnimConfig : ISerializable
+    public struct AnimConfig : ISerializable, ITreeViewNode
     {
         public float Rate { get; set; }
         public float Weight { get; set; }
@@ -37,6 +38,28 @@ namespace NASB_Parser.StateActions
             Default = 0,
             ClampForever = 8,
             Clamp = 1
+        }
+
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+
+        public NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "AnimConfig";
+            ret.data.Add("Rate", Rate.ToString());
+            ret.data.Add("Weight", Weight.ToString());
+            ret.data.Add("Wrap", Enum.GetName(typeof(WrapMode), Wrap));
+            ret.data.Add("ClingToFrames", ClingToFrames.ToString());
+            return ret;
+        }
+        public Dictionary<string, Type> requisites()
+        {
+            throw new NotImplementedException();
         }
     }
 }

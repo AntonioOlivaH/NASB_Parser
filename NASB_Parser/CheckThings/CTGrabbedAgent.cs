@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.CheckThings
 {
@@ -21,6 +22,15 @@ namespace NASB_Parser.CheckThings
         {
             base.Write(writer);
             writer.Write(MatchTags);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "CTGrabbedAgent";
+
+            ret.data.Add("MatchTags", String.Join("\n", MatchTags));
+
+            return ret;
         }
     }
 }

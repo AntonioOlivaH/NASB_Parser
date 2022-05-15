@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.FloatSources
 {
@@ -21,6 +22,15 @@ namespace NASB_Parser.FloatSources
         {
             base.Write(writer);
             writer.Write(Param);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "FSOnHit";
+            ret.data.Add("OnHitParam", Enum.GetName(typeof(OnHitParam), Param));
+
+            return ret;
         }
 
         public enum OnHitParam

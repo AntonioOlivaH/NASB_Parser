@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -28,6 +29,18 @@ namespace NASB_Parser.StateActions
             writer.Write(AtkProp);
             writer.Write(X);
             writer.Write(Y);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SALaunchGrabbedCustom";
+
+            ret.data.Add("AtkProp", AtkProp);
+            ret.Items.Add(X.toTreeViewNode("X"));
+            ret.Items.Add(Y.toTreeViewNode("Y"));
+
+            return ret;
         }
     }
 }

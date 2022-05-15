@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.CheckThings
 {
@@ -24,6 +25,18 @@ namespace NASB_Parser.CheckThings
             base.Write(writer);
             writer.Write(Match);
             writer.Write(Checklist);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "CTMultiple";
+
+            ret.data.Add("CheckMatch", Enum.GetName(typeof(CheckMatch), Match));
+            foreach (CheckThing c in Checklist)
+                ret.Items.Add(c.toTreeViewNode("Checklist"));
+
+            return ret;
         }
 
         public enum CheckMatch

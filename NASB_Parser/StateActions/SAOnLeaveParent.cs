@@ -1,38 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
-    public class SAOnCancel : StateAction
-    {
-        public string Id { get; set; }
+    class SAOnLeaveParent : StateAction {
+
         public StateAction Action { get; set; }
 
-        public SAOnCancel()
+        private int reg;
+        internal SAOnLeaveParent(BulkSerializeReader reader) : base(reader)
         {
-        }
-
-        internal SAOnCancel(BulkSerializeReader reader) : base(reader)
-        {
-            Id = reader.ReadString();
             Action = Read(reader);
         }
 
-        public override void Write(BulkSerializeWriter writer)
-        {
+        public override void Write(BulkSerializeWriter writer) {
             base.Write(writer);
-            writer.Write(Id);
             writer.Write(Action);
         }
 
         public override NASBTreeViewNode toTreeViewNode()
         {
             NASBTreeViewNode ret = new NASBTreeViewNode();
-            ret.Header = "SAOnCancel";
+            ret.Header = "SAOnLeaveParent";
 
-            ret.data.Add("Id", Id);
             ret.Items.Add(Action.toTreeViewNode("Action"));
 
             return ret;

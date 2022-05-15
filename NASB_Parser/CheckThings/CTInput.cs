@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.CheckThings
 {
@@ -28,6 +29,18 @@ namespace NASB_Parser.CheckThings
             writer.Write(InputValidator);
             writer.Write(Frames);
             writer.Write(BlockedBy);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "CTInput";
+
+            ret.data.Add("BlockedBy", Enum.GetName(typeof(GIEV), BlockedBy));
+            ret.data.Add("Frames", Frames.ToString());
+            ret.Items.Add(InputValidator.toTreeViewNode("InputValidator"));
+
+            return ret;
         }
     }
 }

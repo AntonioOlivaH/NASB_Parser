@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -61,6 +62,31 @@ namespace NASB_Parser.StateActions
             writer.Write(DynamicY);
             writer.Write(DynamicZ);
             writer.Write(Scale);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SASpawnFX";
+
+            ret.data.Add("Dynamic", Dynamic.ToString());
+            ret.data.Add("Track", Track.ToString());
+            ret.data.Add("BoneDir", BoneDir.ToString());
+            ret.data.Add("Id", Id);
+            ret.data.Add("Bone", Bone);
+            ret.data.Add("LocalOffset", LocalOffset.ToString());
+            ret.data.Add("GlobalOffset", GlobalOffset.ToString());
+
+
+            ret.Items.Add(DirX.toTreeViewNode("DirX"));
+            ret.Items.Add(DirY.toTreeViewNode("DirY"));
+            ret.Items.Add(DirZ.toTreeViewNode("DirZ"));
+            ret.Items.Add(DynamicX.toTreeViewNode("DynamicX"));
+            ret.Items.Add(DynamicY.toTreeViewNode("DynamicY"));
+            ret.Items.Add(DynamicZ.toTreeViewNode("DynamicZ"));
+            ret.Items.Add(Scale.toTreeViewNode("Scale"));
+
+            return ret;
         }
     }
 }

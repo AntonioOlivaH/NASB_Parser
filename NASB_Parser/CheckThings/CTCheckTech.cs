@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.CheckThings
 {
@@ -21,6 +22,16 @@ namespace NASB_Parser.CheckThings
         {
             base.Write(writer);
             writer.Write(TechTimerId);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "CTCheckTech";
+
+            ret.data.Add("TechTimerId", TechTimerId.ToString());
+
+            return ret;
         }
     }
 }

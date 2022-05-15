@@ -1,11 +1,12 @@
 ﻿using NASB_Parser.StateActions;
+using NASB_Parser.WFPControl;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace NASB_Parser.StateActions
 {
-    public class StateAction : ISerializable
+    public class StateAction : ISerializable, ITreeViewNode
     {
         public TypeId TID { get; private set; }
         public int Version { get; private set; }
@@ -108,8 +109,31 @@ namespace NASB_Parser.StateActions
                 TypeId.BaseIdentifier => new StateAction(reader),
                 TypeId.MapAnimSimpleId => new SAMapAnimationSimple(reader),
                 TypeId.PersistLocalFXId => new SAPersistLocalFX(reader),
+			    TypeId.OnLeaveParentId => new SAOnLeaveParent(reader),
                 _ => throw new ReadException(reader, $"Could not parse valid {nameof(StateAction)} type from: {reader.PeekInt()}!"),
             };
+        }
+
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+
+        public virtual NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "StateAction";
+            return ret;
+        }
+
+        public virtual StateAction GenerateFromRequisites(Dictionary<string, object> input) {
+            throw new NotImplementedException();
+        }
+
+        public virtual Dictionary<string, Type> requisites() {
+            throw new NotImplementedException();
         }
 
         public enum TypeId
@@ -190,7 +214,8 @@ namespace NASB_Parser.StateActions
             ForceExtraInputId,
             LaunchGrabbedCustomId,
             MapAnimSimpleId,
-            PersistLocalFXId
+            PersistLocalFXId,
+            OnLeaveParentId
         }
     }
 }

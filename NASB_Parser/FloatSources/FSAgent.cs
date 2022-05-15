@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.FloatSources
 {
@@ -8,8 +9,7 @@ namespace NASB_Parser.FloatSources
     {
         public Attributes Attribute { get; set; }
 
-        public FSAgent()
-        {
+        public FSAgent() {
         }
 
         internal FSAgent(BulkSerializeReader reader) : base(reader)
@@ -21,6 +21,14 @@ namespace NASB_Parser.FloatSources
         {
             base.Write(writer);
             writer.Write(Attribute);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode() {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "FSAgent";
+
+            ret.data.Add("Attributes", nameof(Attributes));
+            return ret;
         }
 
         public enum Attributes

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.FloatSources
 {
@@ -24,6 +25,16 @@ namespace NASB_Parser.FloatSources
             base.Write(writer);
             writer.Write(X);
             writer.Write(Y);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode() {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "FSVector2Mag";
+
+            ret.Items.Add(X.toTreeViewNode("X"));
+            ret.Items.Add(Y.toTreeViewNode("Y"));
+
+            return ret;
         }
     }
 }

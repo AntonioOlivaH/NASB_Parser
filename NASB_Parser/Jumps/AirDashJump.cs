@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.Jumps
 {
@@ -50,6 +51,24 @@ namespace NASB_Parser.Jumps
             writer.Write(SpeedDownMult);
             writer.Write(Frames);
             writer.Write(RedirectFrames);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "AirDashJump";
+            ret.data.Add("EaseSpeed", Enum.GetName(typeof(Ease), EaseSpeed));
+
+            ret.Items.Add(XDir.toTreeViewNode("XDir"));
+            ret.Items.Add(YDir.toTreeViewNode("YDir"));
+            ret.Items.Add(SpeedStart.toTreeViewNode("SpeedStart"));
+            ret.Items.Add(SpeedEnd.toTreeViewNode("SpeedEnd"));
+            ret.Items.Add(SpeedUpMult.toTreeViewNode("SpeedUpMult"));
+            ret.Items.Add(SpeedDownMult.toTreeViewNode("SpeedDownMult"));
+            ret.Items.Add(Frames.toTreeViewNode("Frames"));
+            ret.Items.Add(RedirectFrames.toTreeViewNode("RedirectFrames"));
+
+            return ret;
         }
     }
 }

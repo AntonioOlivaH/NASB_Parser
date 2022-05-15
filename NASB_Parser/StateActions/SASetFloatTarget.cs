@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -24,7 +25,18 @@ namespace NASB_Parser.StateActions
             writer.Write(Sets);
         }
 
-        public class SetFloat : ISerializable
+        public override NASBTreeViewNode toTreeViewNode() {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SASetFloatTarget";
+
+            foreach (SetFloat s in Sets) {
+                ret.Items.Add(s.toTreeViewNode("Sets"));
+            }
+
+            return ret;
+        }
+
+        public class SetFloat : ISerializable, ITreeViewNode
         {
             public FloatSource Target { get; set; }
             public FloatSource Source { get; set; }
@@ -48,6 +60,27 @@ namespace NASB_Parser.StateActions
                 writer.Write(Target);
                 writer.Write(Source);
                 writer.Write(Way);
+            }
+            public NASBTreeViewNode toTreeViewNode(string label)
+            {
+                NASBTreeViewNode ret = this.toTreeViewNode();
+                ret.Header = label + "_" + ret.Header;
+                return ret;
+            }
+            public NASBTreeViewNode toTreeViewNode() {
+                NASBTreeViewNode ret = new NASBTreeViewNode();
+                ret.Header = "SetFloat";
+
+                ret.Items.Add(Target.toTreeViewNode("Target"));
+                ret.Items.Add(Source.toTreeViewNode("Source"));
+
+                ret.data.Add("Way", Enum.GetName(typeof(ManipWay), Way));
+
+                return ret;
+            }
+            public virtual Dictionary<string, Type> requisites()
+            {
+                throw new NotImplementedException();
             }
 
             public enum ManipWay

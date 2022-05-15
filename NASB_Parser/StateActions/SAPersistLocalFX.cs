@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using NASB_Parser.FloatSources;
+using NASB_Parser.WFPControl;
 
-namespace NASB_Parser.StateActions {
-    public class SAPersistLocalFX : StateAction {
+namespace NASB_Parser.StateActions
+{
+    public class SAPersistLocalFX : StateAction
+    {
 
         public string id = string.Empty;
 
@@ -31,6 +34,19 @@ namespace NASB_Parser.StateActions {
             writer.Write(id);
             writer.Write(persist);
             writer.Write(maxout);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode() {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SAPersistLocalFX";
+
+            ret.data.Add("id", id);
+            ret.data.Add("maxout", maxout.ToString());
+            ret.data.Add("liveid", liveid.ToString());
+
+            ret.Items.Add(persist.toTreeViewNode("persist"));
+
+            return ret;
         }
     }
 }

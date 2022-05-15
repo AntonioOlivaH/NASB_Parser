@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.Jumps
 {
@@ -28,6 +29,18 @@ namespace NASB_Parser.Jumps
             writer.Write(Height);
             writer.Write(AutoHoldFrames);
             writer.Write(YVelMaxOnRelease);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "HoldJump";
+
+            ret.Items.Add(Height.toTreeViewNode("Height"));
+            ret.Items.Add(AutoHoldFrames.toTreeViewNode("AutoHoldFrames"));
+            ret.Items.Add(YVelMaxOnRelease.toTreeViewNode("YVelMaxOnRelease"));
+
+            return ret;
         }
     }
 }

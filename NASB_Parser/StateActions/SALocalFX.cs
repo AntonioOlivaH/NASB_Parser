@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -25,13 +26,25 @@ namespace NASB_Parser.StateActions
             writer.Write(ActionType);
             writer.Write(Id);
         }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SALocalFX";
+
+            ret.data.Add("Id", Id);
+            ret.data.Add("ActionType", Enum.GetName(typeof(LocalFXAction), ActionType));
+
+            return ret;
+        }
 
         public enum LocalFXAction
         {
             TurnOn,
             TurnOff,
             Restart,
-            RestartAll
+            RestartAll,
+            RestartAndOn,
+            RestartAndOff
         }
     }
 }

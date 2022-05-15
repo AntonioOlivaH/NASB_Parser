@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.Jumps
 {
-    public class Jump : ISerializable
+    public class Jump : ISerializable, ITreeViewNode
     {
         public TypeId TID { get; private set; }
         public int Version { get; private set; }
@@ -33,10 +34,28 @@ namespace NASB_Parser.Jumps
                 TypeId.HoldId => new HoldJump(reader),
                 TypeId.AirdashId => new AirDashJump(reader),
                 TypeId.KnockbackId => new KnockbackJump(reader),
+                TypeId.DelayedId => new DelayedJump(reader),
+                TypeId.ClampMomentumId => new ClampMomentumJump(reader),
                 TypeId.BaseIdentifier => new Jump(reader),
                 // This is more aggressive than the game parser for better error detection.
                 _ => throw new ReadException(reader, $"Could not parse valid {nameof(Jump)} type from: {reader.PeekInt()}!"),
             };
+        }
+
+        public NASBTreeViewNode toTreeViewNode(string label)
+        {
+            NASBTreeViewNode ret = this.toTreeViewNode();
+            ret.Header = label + "_" + ret.Header;
+            return ret;
+        }
+
+        public virtual NASBTreeViewNode toTreeViewNode()
+        {
+            throw new NotImplementedException();
+        }
+        public virtual Dictionary<string, Type> requisites()
+        {
+            throw new NotImplementedException();
         }
 
         public enum TypeId
@@ -45,7 +64,9 @@ namespace NASB_Parser.Jumps
             HeightId,
             HoldId,
             AirdashId,
-            KnockbackId
+            KnockbackId,
+            DelayedId,
+            ClampMomentumId
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.ObjectSources
 {
@@ -25,6 +26,17 @@ namespace NASB_Parser.ObjectSources
             base.Write(writer);
             writer.Write(X);
             writer.Write(Y);
+        }
+
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "OSVector2";
+
+            ret.Items.Add(X.toTreeViewNode("X"));
+            ret.Items.Add(Y.toTreeViewNode("Y"));
+
+            return ret;
         }
     }
 }

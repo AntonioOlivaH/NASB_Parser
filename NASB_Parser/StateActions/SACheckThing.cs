@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NASB_Parser.WFPControl;
 
 namespace NASB_Parser.StateActions
 {
@@ -31,6 +32,19 @@ namespace NASB_Parser.StateActions
             writer.Write(Action);
             writer.Write(Else);
             writer.Write(ElseAction);
+        }
+        public override NASBTreeViewNode toTreeViewNode()
+        {
+            NASBTreeViewNode ret = new NASBTreeViewNode();
+            ret.Header = "SACheckThing";
+
+            ret.data.Add("Else", Else.ToString());
+
+            ret.Items.Add(CheckThing.toTreeViewNode("CheckThing"));
+            ret.Items.Add(Action.toTreeViewNode("Action"));
+            ret.Items.Add(ElseAction.toTreeViewNode("ElseAction"));
+
+            return ret;
         }
     }
 }
