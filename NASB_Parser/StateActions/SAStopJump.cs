@@ -41,7 +41,7 @@ namespace NASB_Parser.StateActions
 
             ret.data.Add("StopAll", StopAll.ToString());
             ret.data.Add("JumpId", JumpId);
-            ret.Items.Add(jumpids);
+            ret.data.Add("jumpids", String.Join("\n", jumpids));
 
             return ret;
         }

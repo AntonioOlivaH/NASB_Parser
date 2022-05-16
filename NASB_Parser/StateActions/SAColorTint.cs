@@ -44,6 +44,8 @@ namespace NASB_Parser.StateActions
 
             ret.Items.Add(RunForTime.toTreeViewNode("RunForTime"));
 
+            ret.baseobject = this;
+
             return ret;
         }
     }

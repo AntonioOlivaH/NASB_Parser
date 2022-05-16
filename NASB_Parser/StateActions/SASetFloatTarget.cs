@@ -33,6 +33,8 @@ namespace NASB_Parser.StateActions
                 ret.Items.Add(s.toTreeViewNode("Sets"));
             }
 
+            ret.baseobject = this;
+
             return ret;
         }
 
@@ -75,6 +77,8 @@ namespace NASB_Parser.StateActions
                 ret.Items.Add(Source.toTreeViewNode("Source"));
 
                 ret.data.Add("Way", Enum.GetName(typeof(ManipWay), Way));
+
+                ret.baseobject = this;
 
                 return ret;
             }
